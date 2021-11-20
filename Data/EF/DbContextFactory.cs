@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 using System.IO;
 
-namespace Invetory.Data.EF
+namespace Inventory.Data.EF
 {
     public class DbContextFactory : IDesignTimeDbContextFactory<DbContext>
     {
@@ -15,10 +15,10 @@ namespace Invetory.Data.EF
                 .Build();
 
             var connectionString = configuration.GetConnectionString("InventoryDb");
-            var optionsBuilder = new DbContextOptionsBuilder<EShopDbContext>();
+            var optionsBuilder = new DbContextOptionsBuilder<DbContext>();
             optionsBuilder.UseSqlServer(connectionString);
 
-            return new EShopDbContext(optionsBuilder.Options);
+            return new DbContext(optionsBuilder.Options);
         }
     }
 }
