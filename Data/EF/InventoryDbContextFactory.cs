@@ -5,9 +5,9 @@ using System.IO;
 
 namespace Inventory.Data.EF
 {
-    public class DbContextFactory : IDesignTimeDbContextFactory<DbContext>
+    public class InventoryDbContextFactory : IDesignTimeDbContextFactory<InventoryDbContext>
     {
-        public DbContext CreateDbContext(string[] args)
+        public InventoryDbContext CreateDbContext(string[] args)
         {
             IConfigurationRoot configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
@@ -15,10 +15,10 @@ namespace Inventory.Data.EF
                 .Build();
 
             var connectionString = configuration.GetConnectionString("InventoryDb");
-            var optionsBuilder = new DbContextOptionsBuilder<DbContext>();
+            var optionsBuilder = new DbContextOptionsBuilder<InventoryDbContext>();
             optionsBuilder.UseSqlServer(connectionString);
 
-            return new DbContext(optionsBuilder.Options);
+            return new InventoryDbContext(optionsBuilder.Options);
         }
     }
 }

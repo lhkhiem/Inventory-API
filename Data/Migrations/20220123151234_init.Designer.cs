@@ -7,19 +7,85 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
+#nullable disable
+
 namespace Data.Migrations
 {
-    [DbContext(typeof(Inventory.Data.EF.DbContext))]
-    [Migration("20211120151234_init data")]
-    partial class initdata
+    [DbContext(typeof(InventoryDbContext))]
+    [Migration("20220123151234_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .UseIdentityColumns()
-                .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.0");
+                .HasAnnotation("ProductVersion", "6.0.1")
+                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+
+            modelBuilder.Entity("Data.Entities.Product", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("Quantity")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
+
+                    b.Property<bool>("Status")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(true);
+
+                    b.Property<byte?>("UnitId")
+                        .HasColumnType("tinyint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UnitId");
+
+                    b.ToTable("Products", (string)null);
+                });
+
+            modelBuilder.Entity("Data.Entities.Unit", b =>
+                {
+                    b.Property<byte>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("tinyint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<byte>("Id"), 1L, 1);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Units", (string)null);
+                });
 
             modelBuilder.Entity("Inventory.Data.Entities.AppRole", b =>
                 {
@@ -106,27 +172,13 @@ namespace Data.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("Inventory.Data.Entities.Product", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Products");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("ClaimType")
                         .HasColumnType("nvarchar(max)");
@@ -139,15 +191,16 @@ namespace Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AppRoleClaims");
+                    b.ToTable("AppRoleClaims", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("ClaimType")
                         .HasColumnType("nvarchar(max)");
@@ -160,7 +213,7 @@ namespace Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AppUserClaims");
+                    b.ToTable("AppUserClaims", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
@@ -180,7 +233,7 @@ namespace Data.Migrations
 
                     b.HasKey("UserId");
 
-                    b.ToTable("AppUserLogins");
+                    b.ToTable("AppUserLogins", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
@@ -193,7 +246,7 @@ namespace Data.Migrations
 
                     b.HasKey("UserId", "RoleId");
 
-                    b.ToTable("AppUserRoles");
+                    b.ToTable("AppUserRoles", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
@@ -213,7 +266,21 @@ namespace Data.Migrations
 
                     b.HasKey("UserId");
 
-                    b.ToTable("AppUserTokens");
+                    b.ToTable("AppUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("Data.Entities.Product", b =>
+                {
+                    b.HasOne("Data.Entities.Unit", "Unit")
+                        .WithMany("Products")
+                        .HasForeignKey("UnitId");
+
+                    b.Navigation("Unit");
+                });
+
+            modelBuilder.Entity("Data.Entities.Unit", b =>
+                {
+                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }

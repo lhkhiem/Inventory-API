@@ -1,4 +1,5 @@
-﻿using Inventory.Data.Configurations;
+﻿using Data.Entities;
+using Inventory.Data.Configurations;
 using Inventory.Data.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -7,9 +8,9 @@ using System;
 
 namespace Inventory.Data.EF
 {
-    public class DbContext : IdentityDbContext<AppUser, AppRole, Guid>
+    public class InventoryDbContext : IdentityDbContext<AppUser, AppRole, Guid>
     {
-        public DbContext(DbContextOptions options) : base(options)
+        public InventoryDbContext(DbContextOptions options) : base(options)
         {
         }
 
@@ -18,6 +19,7 @@ namespace Inventory.Data.EF
             //Configure using Fluent API
 
             modelBuilder.ApplyConfiguration(new ProductConfiguration());
+            modelBuilder.ApplyConfiguration(new UnitConfiguration());
 
             modelBuilder.Entity<IdentityUserClaim<Guid>>().ToTable("AppUserClaims");
             modelBuilder.Entity<IdentityUserRole<Guid>>().ToTable("AppUserRoles").HasKey(x => new { x.UserId, x.RoleId });
@@ -28,5 +30,6 @@ namespace Inventory.Data.EF
         }
 
         public DbSet<Product> Products { get; set; }
+        public DbSet<Unit> Units { get; set; }
     }
 }

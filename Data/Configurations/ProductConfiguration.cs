@@ -1,9 +1,6 @@
-﻿using Inventory.Data.Entities;
+﻿using Data.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Inventory.Data.Configurations
 {
@@ -19,7 +16,6 @@ namespace Inventory.Data.Configurations
             builder.Property(x => x.Name).IsRequired().HasMaxLength(100);
             builder.Property(x => x.Description).HasMaxLength(500);
             builder.Property(x => x.Quantity).IsRequired().HasDefaultValue(0);
-            builder.Property(x => x.Unit).IsRequired();
             builder.Property(x => x.Status).IsRequired().HasDefaultValue(true);
         }
     }
