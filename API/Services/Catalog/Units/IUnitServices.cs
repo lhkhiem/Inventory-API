@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace API.Services.Catalog.Units
 {
-    public interface IUnitServices
+    public interface IProductServices
     {
         Task<ApiResult<byte>> Create(UnitCreateRequest request);
         Task<ApiResult<byte>> Update(UnitUpdateRequest request);

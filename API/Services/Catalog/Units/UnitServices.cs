@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace API.Services.Catalog.Units
 {
-    public class UnitServices : IUnitServices
+    public class ProductServices : IProductServices
     {
         private readonly InventoryDbContext _context;
 
-        public UnitServices(InventoryDbContext context)
+        public ProductServices(InventoryDbContext context)
         {
             _context = context;
         }
@@ -54,6 +54,10 @@ namespace API.Services.Catalog.Units
             {
                 var unit = await _context.Units.FindAsync(unitId);
                 if (unit == null) return new ApiErrorResult<byte>("This item is not found.");
+
+                var product = await _context.Products.FirstOrDefaultAsync(x=>x.UnitId.Equals(unitId));
+                if (product!=null) return new ApiErrorResult<byte>("Have 1 or more product used.");
+
                 _context.Units.Remove(unit);
                 await _context.SaveChangesAsync();
                 return new ApiSuccessResult<byte>("Deleted.", unit.Id);

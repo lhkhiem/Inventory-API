@@ -41,7 +41,7 @@ namespace Inventory
             //    .AddEntityFrameworkStores<InventoryDbContext>()
             //    .AddDefaultTokenProviders();
             //Declare DI
-            services.AddTransient<IUnitServices, UnitServices>();
+            services.AddTransient<IProductServices, ProductServices>();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
