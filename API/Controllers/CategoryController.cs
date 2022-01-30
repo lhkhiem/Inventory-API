@@ -1,5 +1,5 @@
-﻿using API.Services.Catalog.Units;
-using API.ViewModels.Catalog.Units;
+﻿using API.Services.Catalog.Categories;
+using API.ViewModels.Catalog.Categories;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -7,36 +7,36 @@ namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UnitController : ControllerBase
+    public class CategoryController : ControllerBase
     {
-        private readonly IUnitServices _unitServices;
+        private readonly ICategoryServices _categoryServices;
 
-        public UnitController(IUnitServices unitServices)
+        public CategoryController(ICategoryServices categoryServices)
         {
-            _unitServices = unitServices;
+            _categoryServices = categoryServices;
         }
 
         [HttpPost("Create")]
-        public async Task<IActionResult> Create([FromForm] UnitCreateRequest request)
+        public async Task<IActionResult> Create([FromForm] CategoryCreateRequest request)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            var result = await _unitServices.Create(request);
+            var result = await _categoryServices.Create(request);
             if (!result.IsSuccessed) return BadRequest(result);
             return Ok(result);
 
         }
 
         [HttpPut("Update")]
-        public async Task<IActionResult> Update([FromForm] UnitUpdateRequest request)
+        public async Task<IActionResult> Update([FromForm] CategoryUpdateRequest request)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            var result = await _unitServices.Update(request);
+            var result = await _categoryServices.Update(request);
             if (!result.IsSuccessed) return BadRequest(result);
             return Ok(result);
 
@@ -44,25 +44,25 @@ namespace API.Controllers
         [HttpDelete("Delete/{unitId}")]
         public async Task<IActionResult> Delete(byte unitId)
         {
-            var result = await _unitServices.Delete(unitId);
+            var result = await _categoryServices.Delete(unitId);
             if (!result.IsSuccessed) return BadRequest(result);
             return Ok(result);
         }
         [HttpGet("GetById/{unitId}")]
         public async Task<IActionResult> Get(byte unitId)
         {
-            var result=await _unitServices.GetById(unitId);
+            var result=await _categoryServices.GetById(unitId);
             if (!result.IsSuccessed) return BadRequest(result);
             return Ok(result);
         }
         [HttpGet("GetPaging")]
-        public async Task<IActionResult> GetPaging([FromQuery] UnitGetPagingRequest request)
+        public async Task<IActionResult> GetPaging([FromQuery] CategoryGetPagingRequest request)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            var result= await _unitServices.GetPaging(request);
+            var result= await _categoryServices.GetPaging(request);
             if (!result.IsSuccessed) return BadRequest(result);
             return Ok(result);
         }

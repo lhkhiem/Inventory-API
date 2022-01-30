@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace API.Services.Catalog.Units
 {
-    public class ProductServices : IProductServices
+    public class UnitServices : IUnitServices
     {
         private readonly InventoryDbContext _context;
 
-        public ProductServices(InventoryDbContext context)
+        public UnitServices(InventoryDbContext context)
         {
             _context = context;
         }

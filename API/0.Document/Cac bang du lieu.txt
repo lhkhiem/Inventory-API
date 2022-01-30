@@ -1,0 +1,48 @@
+﻿1. Unit
+	-Id
+	-Name
+
+2. Category
+	-Id
+	-Name
+
+3. Product
+	-Id
+	-Code
+	-Name
+	-Description
+	-Price
+	-Quantity
+	-UnitId
+	-CategoryId
+	-Status
+
+4. Import
+	-Id
+	-No
+	-Date
+
+5. ImportDetail
+	-ImportId
+	-ProductId
+	-Quantity
+	-Note
+
+6. Export 
+	-Id
+	-No
+	-Date
+
+7. ExportDetail
+	-ExportId
+	-ProductId
+	-Quantity
+	-Note
+8. Ledger
+	-Period
+	-ProductId
+	-Opening
+	-Ending
+
+	Ex: 1/2022	Nhot_ABC	0	10
+	

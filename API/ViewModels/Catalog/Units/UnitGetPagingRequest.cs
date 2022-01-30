@@ -2,7 +2,7 @@
 
 namespace API.ViewModels.Catalog.Units
 {
-    public class UnitGetPagingRequest:PagingRequest
+    public class UnitGetPagingRequest : PagingRequest
     {
         public string Keyword { get; set; }
     }

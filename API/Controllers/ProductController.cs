@@ -9,16 +9,13 @@ namespace API.Controllers
     [ApiController]
     public class ProductController : ControllerBase
     {
-        private readonly IProductServices _ProductServices;
+        private readonly IProductServices _productServices;
 
-        public ProductController(IProductServices ProductServices)
+        public ProductController(IProductServices productServices)
         {
-            _ProductServices = ProductServices;
+            _productServices = productServices;
         }
-        /// <summary>
-        /// Lấy tất cả danh sách Users
-        /// </summary>
-        /// <returns>Danh sách Users</returns>
+
         [HttpPost("Create")]
         public async Task<IActionResult> Create([FromForm] ProductCreateRequest request)
         {
@@ -26,7 +23,7 @@ namespace API.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var result = await _ProductServices.Create(request);
+            var result = await _productServices.Create(request);
             if (!result.IsSuccessed) return BadRequest(result);
             return Ok(result);
 
@@ -39,7 +36,7 @@ namespace API.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var result = await _ProductServices.Update(request);
+            var result = await _productServices.Update(request);
             if (!result.IsSuccessed) return BadRequest(result);
             return Ok(result);
 
@@ -47,14 +44,14 @@ namespace API.Controllers
         [HttpDelete("Delete/{ProductId}")]
         public async Task<IActionResult> Delete(byte ProductId)
         {
-            var result = await _ProductServices.Delete(ProductId);
+            var result = await _productServices.Delete(ProductId);
             if (!result.IsSuccessed) return BadRequest(result);
             return Ok(result);
         }
         [HttpGet("GetById/{ProductId}")]
         public async Task<IActionResult> Get(byte ProductId)
         {
-            var result=await _ProductServices.GetById(ProductId);
+            var result=await _productServices.GetById(ProductId);
             if (!result.IsSuccessed) return BadRequest(result);
             return Ok(result);
         }
@@ -65,7 +62,7 @@ namespace API.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var result= await _ProductServices.GetPaging(request);
+            var result= await _productServices.GetPaging(request);
             if (!result.IsSuccessed) return BadRequest(result);
             return Ok(result);
         }
