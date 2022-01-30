@@ -40,6 +40,9 @@
 	-Note
 8. Ledger
 	-Period
+	-CloseDate
+9. LedgerDetail
+	-PeriodId
 	-ProductId
 	-Opening
 	-Ending
