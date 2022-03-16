@@ -1,4 +1,8 @@
 using API.Services.Catalog.Categories;
+using API.Services.Catalog.ExportDetails;
+using API.Services.Catalog.Exports;
+using API.Services.Catalog.ImportDetails;
+using API.Services.Catalog.Imports;
 using API.Services.Catalog.Products;
 using API.Services.Catalog.Units;
 using Inventory.Data.EF;
@@ -35,6 +39,10 @@ namespace Inventory
             services.AddTransient<IUnitServices, UnitServices>();
             services.AddTransient<ICategoryServices, CategoryServices>();
             services.AddTransient<IProductServices, ProductServices>();
+            services.AddTransient<IImportServices, ImportServices>();
+            services.AddTransient<IExportServices, ExportServices>();
+            services.AddTransient<IImportDetailServices, ImportDetailServices>();
+            services.AddTransient<IExportDetailServices, ExportDetailServices>();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {

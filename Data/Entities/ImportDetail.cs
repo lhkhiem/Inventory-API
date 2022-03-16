@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace Data.Entities
 {
-    public class ImportDetial
+    public class ImportDetail
     {
-        public int ImporttId { get; set; }
+        public int ImportId { get; set; }
         public int ProductId { get; set; }
         public int Quantity { get; set; }
-        public string Note { get; set; }
+        public string Note { get; set; } = string.Empty;
 
         public virtual Import Import { get; set; }
     }

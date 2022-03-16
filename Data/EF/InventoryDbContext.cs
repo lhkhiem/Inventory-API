@@ -21,6 +21,12 @@ namespace Inventory.Data.EF
             modelBuilder.ApplyConfiguration(new ProductConfiguration());
             modelBuilder.ApplyConfiguration(new UnitConfiguration());
             modelBuilder.ApplyConfiguration(new CategoryConfiguration());
+            modelBuilder.ApplyConfiguration(new ImportConfiguration());
+            modelBuilder.ApplyConfiguration(new ImportDetailConfiguration());
+            modelBuilder.ApplyConfiguration(new ExportConfiguration());
+            modelBuilder.ApplyConfiguration(new ExportDetailConfiguration());
+            modelBuilder.ApplyConfiguration(new LedgerConfiguration());
+            modelBuilder.ApplyConfiguration(new LedgerDetailConfiguration());
 
             modelBuilder.Entity<IdentityUserClaim<Guid>>().ToTable("AppUserClaims");
             modelBuilder.Entity<IdentityUserRole<Guid>>().ToTable("AppUserRoles").HasKey(x => new { x.UserId, x.RoleId });
@@ -33,5 +39,12 @@ namespace Inventory.Data.EF
         public DbSet<Product> Products { get; set; }
         public DbSet<Unit> Units { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Import> Imports { get; set; }
+        public DbSet<ImportDetail> ImportDetails { get; set; }
+        public DbSet<Export> Exports { get; set; }
+        public DbSet<ExportDetail> ExportDetails { get; set; }
+        public DbSet<Ledger> Ledgers { get; set; }
+        public DbSet<LedgerDetail> LedgerDetails { get; set; }
+
     }
 }

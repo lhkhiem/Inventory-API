@@ -17,58 +17,58 @@ namespace API.Services.Catalog.Units
             _context = context;
         }
 
-        public async Task<ApiResult<byte>> Create(UnitCreateRequest request)
+        public async Task<ApiResult<int>> Create(UnitCreateRequest request)
         {
             try
             {
                 var unit = new Unit() { Name = request.Name };
                 _context.Units.Add(unit);
                 await _context.SaveChangesAsync();
-                return new ApiSuccessResult<byte>("Created.", unit.Id);
+                return new ApiSuccessResult<int>("Created.", unit.Id);
             }
             catch (System.Exception ex)
             {
-                return new ApiErrorResult<byte>(ex.Message);
+                return new ApiErrorResult<int>(ex.Message);
             }
         }
 
-        public async Task<ApiResult<byte>> Update(UnitUpdateRequest request)
+        public async Task<ApiResult<int>> Update(UnitUpdateRequest request)
         {
             try
             {
                 var unit = await _context.Units.FindAsync(request.Id);
-                if (unit == null) return new ApiErrorResult<byte>("This item is not found.");
+                if (unit == null) return new ApiErrorResult<int>("This item is not found.");
                 unit.Name = request.Name;
                 await _context.SaveChangesAsync();
-                return new ApiSuccessResult<byte>("Updated.", unit.Id);
+                return new ApiSuccessResult<int>("Updated.", unit.Id);
             }
             catch (System.Exception ex)
             {
-                return new ApiErrorResult<byte>(ex.Message);
+                return new ApiErrorResult<int>(ex.Message);
             }
         }
 
-        public async Task<ApiResult<byte>> Delete(byte unitId)
+        public async Task<ApiResult<int>> Delete(int unitId)
         {
             try
             {
                 var unit = await _context.Units.FindAsync(unitId);
-                if (unit == null) return new ApiErrorResult<byte>("This item is not found.");
+                if (unit == null) return new ApiErrorResult<int>("This item is not found.");
 
                 var product = await _context.Products.FirstOrDefaultAsync(x=>x.UnitId.Equals(unitId));
-                if (product!=null) return new ApiErrorResult<byte>("Have 1 or more product used.");
+                if (product!=null) return new ApiErrorResult<int>("Have 1 or more product used.");
 
                 _context.Units.Remove(unit);
                 await _context.SaveChangesAsync();
-                return new ApiSuccessResult<byte>("Deleted.", unit.Id);
+                return new ApiSuccessResult<int>("Deleted.", unit.Id);
             }
             catch (System.Exception ex)
             {
-                return new ApiErrorResult<byte>(ex.Message);
+                return new ApiErrorResult<int>(ex.Message);
             }
         }
 
-        public async Task<ApiResult<UnitViewModel>> GetById(byte unitId)
+        public async Task<ApiResult<UnitViewModel>> GetById(int unitId)
         {
             try
             {

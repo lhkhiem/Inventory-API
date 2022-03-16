@@ -9,7 +9,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Services\Catalog\Ledgers\" />
+    <Folder Include="Services\Catalog\LedgerDetails\" />
     <Folder Include="Services\System\" />
+    <Folder Include="ViewModels\Catalog\LedgerDetail\" />
     <Folder Include="ViewModels\System\" />
   </ItemGroup>
 

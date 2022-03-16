@@ -17,58 +17,58 @@ namespace API.Services.Catalog.Categories
             _context = context;
         }
 
-        public async Task<ApiResult<byte>> Create(CategoryCreateRequest request)
+        public async Task<ApiResult<int>> Create(CategoryCreateRequest request)
         {
             try
             {
                 var category = new Category() { Name = request.Name };
                 _context.Categories.Add(category);
                 await _context.SaveChangesAsync();
-                return new ApiSuccessResult<byte>("Created.", category.Id);
+                return new ApiSuccessResult<int>("Created.", category.Id);
             }
             catch (System.Exception ex)
             {
-                return new ApiErrorResult<byte>(ex.Message);
+                return new ApiErrorResult<int>(ex.Message);
             }
         }
 
-        public async Task<ApiResult<byte>> Update(CategoryUpdateRequest request)
+        public async Task<ApiResult<int>> Update(CategoryUpdateRequest request)
         {
             try
             {
                 var category = await _context.Categories.FindAsync(request.Id);
-                if (category == null) return new ApiErrorResult<byte>("This item is not found.");
+                if (category == null) return new ApiErrorResult<int>("This item is not found.");
                 category.Name = request.Name;
                 await _context.SaveChangesAsync();
-                return new ApiSuccessResult<byte>("Updated.", category.Id);
+                return new ApiSuccessResult<int>("Updated.", category.Id);
             }
             catch (System.Exception ex)
             {
-                return new ApiErrorResult<byte>(ex.Message);
+                return new ApiErrorResult<int>(ex.Message);
             }
         }
 
-        public async Task<ApiResult<byte>> Delete(byte categoryId)
+        public async Task<ApiResult<int>> Delete(int categoryId)
         {
             try
             {
                 var category = await _context.Categories.FindAsync(categoryId);
-                if (category == null) return new ApiErrorResult<byte>("This item is not found.");
+                if (category == null) return new ApiErrorResult<int>("This item is not found.");
 
                 var product = await _context.Products.FirstOrDefaultAsync(x=>x.CategoryId.Equals(categoryId));
-                if (product!=null) return new ApiErrorResult<byte>("Have 1 or more product used.");
+                if (product!=null) return new ApiErrorResult<int>("Have 1 or more product used.");
 
                 _context.Categories.Remove(category);
                 await _context.SaveChangesAsync();
-                return new ApiSuccessResult<byte>("Deleted.", category.Id);
+                return new ApiSuccessResult<int>("Deleted.", category.Id);
             }
             catch (System.Exception ex)
             {
-                return new ApiErrorResult<byte>(ex.Message);
+                return new ApiErrorResult<int>(ex.Message);
             }
         }
 
-        public async Task<ApiResult<CategoryViewModel>> GetById(byte categoryId)
+        public async Task<ApiResult<CategoryViewModel>> GetById(int categoryId)
         {
             try
             {

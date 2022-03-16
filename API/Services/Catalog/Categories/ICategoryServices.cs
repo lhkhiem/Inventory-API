@@ -6,10 +6,10 @@ namespace API.Services.Catalog.Categories
 {
     public interface ICategoryServices
     {
-        Task<ApiResult<byte>> Create(CategoryCreateRequest request);
-        Task<ApiResult<byte>> Update(CategoryUpdateRequest request);
-        Task<ApiResult<byte>> Delete(byte unitId);
+        Task<ApiResult<int>> Create(CategoryCreateRequest request);
+        Task<ApiResult<int>> Update(CategoryUpdateRequest request);
+        Task<ApiResult<int>> Delete(int unitId);
         Task<ApiResult<PagedResult<CategoryViewModel>>> GetPaging(CategoryGetPagingRequest request);
-        Task<ApiResult<CategoryViewModel>> GetById(byte unitId);
+        Task<ApiResult<CategoryViewModel>> GetById(int unitId);
     }
 }

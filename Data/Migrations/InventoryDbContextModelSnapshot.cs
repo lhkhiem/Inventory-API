@@ -24,11 +24,11 @@ namespace Data.Migrations
 
             modelBuilder.Entity("Data.Entities.Category", b =>
                 {
-                    b.Property<byte>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("tinyint");
+                        .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<byte>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -40,6 +40,139 @@ namespace Data.Migrations
                     b.ToTable("Categories", (string)null);
                 });
 
+            modelBuilder.Entity("Data.Entities.Export", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime");
+
+                    b.Property<string>("No")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Exports", (string)null);
+                });
+
+            modelBuilder.Entity("Data.Entities.ExportDetail", b =>
+                {
+                    b.Property<int>("ExportId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Note")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("ExportId", "ProductId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("ExportDetails", (string)null);
+                });
+
+            modelBuilder.Entity("Data.Entities.Import", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime");
+
+                    b.Property<string>("No")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Imports", (string)null);
+                });
+
+            modelBuilder.Entity("Data.Entities.ImportDetail", b =>
+                {
+                    b.Property<int>("ImportId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Note")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("ImportId", "ProductId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("ImportDetails", (string)null);
+                });
+
+            modelBuilder.Entity("Data.Entities.Ledger", b =>
+                {
+                    b.Property<string>("Period")
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
+
+                    b.Property<DateTime?>("CloseDate")
+                        .HasColumnType("datetime");
+
+                    b.Property<bool>("IsClosed")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.HasKey("Period");
+
+                    b.ToTable("Ledgers", (string)null);
+                });
+
+            modelBuilder.Entity("Data.Entities.LedgerDetail", b =>
+                {
+                    b.Property<string>("LedgerId")
+                        .HasColumnType("nvarchar(10)");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Ending")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Opening")
+                        .HasColumnType("int");
+
+                    b.HasKey("LedgerId", "ProductId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("LedgerDetails", (string)null);
+                });
+
             modelBuilder.Entity("Data.Entities.Product", b =>
                 {
                     b.Property<int>("Id")
@@ -48,8 +181,8 @@ namespace Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<byte>("CategoryId")
-                        .HasColumnType("tinyint");
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Code")
                         .IsRequired()
@@ -66,7 +199,7 @@ namespace Data.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal");
 
                     b.Property<int>("Quantity")
                         .ValueGeneratedOnAdd()
@@ -74,12 +207,10 @@ namespace Data.Migrations
                         .HasDefaultValue(0);
 
                     b.Property<bool>("Status")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(true);
+                        .HasColumnType("bit");
 
-                    b.Property<byte>("UnitId")
-                        .HasColumnType("tinyint");
+                    b.Property<int>("UnitId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -92,11 +223,11 @@ namespace Data.Migrations
 
             modelBuilder.Entity("Data.Entities.Unit", b =>
                 {
-                    b.Property<byte>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("tinyint");
+                        .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<byte>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -290,6 +421,59 @@ namespace Data.Migrations
                     b.ToTable("AppUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Data.Entities.ExportDetail", b =>
+                {
+                    b.HasOne("Data.Entities.Export", "Export")
+                        .WithMany("ExportDetails")
+                        .HasForeignKey("ExportId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Data.Entities.Product", null)
+                        .WithMany("ExportDetials")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Export");
+                });
+
+            modelBuilder.Entity("Data.Entities.ImportDetail", b =>
+                {
+                    b.HasOne("Data.Entities.Import", "Import")
+                        .WithMany("ImportDetails")
+                        .HasForeignKey("ImportId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Data.Entities.Product", null)
+                        .WithMany("ImportDetials")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Import");
+                });
+
+            modelBuilder.Entity("Data.Entities.LedgerDetail", b =>
+                {
+                    b.HasOne("Data.Entities.Ledger", "Ledger")
+                        .WithMany("LedgerDetails")
+                        .HasForeignKey("LedgerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Data.Entities.Product", "Product")
+                        .WithMany("LedgerDetails")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Ledger");
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("Data.Entities.Product", b =>
                 {
                     b.HasOne("Data.Entities.Category", "Category")
@@ -312,6 +496,30 @@ namespace Data.Migrations
             modelBuilder.Entity("Data.Entities.Category", b =>
                 {
                     b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("Data.Entities.Export", b =>
+                {
+                    b.Navigation("ExportDetails");
+                });
+
+            modelBuilder.Entity("Data.Entities.Import", b =>
+                {
+                    b.Navigation("ImportDetails");
+                });
+
+            modelBuilder.Entity("Data.Entities.Ledger", b =>
+                {
+                    b.Navigation("LedgerDetails");
+                });
+
+            modelBuilder.Entity("Data.Entities.Product", b =>
+                {
+                    b.Navigation("ExportDetials");
+
+                    b.Navigation("ImportDetials");
+
+                    b.Navigation("LedgerDetails");
                 });
 
             modelBuilder.Entity("Data.Entities.Unit", b =>

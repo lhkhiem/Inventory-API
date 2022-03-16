@@ -11,7 +11,7 @@ namespace Data.Entities
         public int ExportId { get; set; }
         public int ProductId { get; set; }
         public int Quantity { get; set; }
-        public string Note { get; set; }
+        public string Note { get; set; }=String.Empty;
 
         public virtual Export Export { get; set; }  
 

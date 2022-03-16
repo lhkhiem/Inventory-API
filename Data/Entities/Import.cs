@@ -8,7 +8,7 @@ namespace Data.Entities
         public int Id { get; set; }
         public string No { get; set; } = String.Empty;
         public DateTime Date { get; set; } = DateTime.Now;
-
-        public List<ImportDetial> ImportDetails { get; set; }
+        public DateTime CreateDate { get; set; } = DateTime.Now;
+        public List<ImportDetail> ImportDetails { get; set; }
     }
 }

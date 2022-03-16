@@ -14,9 +14,10 @@ namespace Inventory.Data.Configurations
             builder.Property(x => x.Id).UseIdentityColumn();
             builder.Property(x => x.Code).IsRequired().HasMaxLength(10);
             builder.Property(x => x.Name).IsRequired().HasMaxLength(100);
+            builder.Property(x => x.Price).HasColumnType("decimal");
             builder.Property(x => x.Description).HasMaxLength(500);
             builder.Property(x => x.Quantity).IsRequired().HasDefaultValue(0);
-            builder.Property(x => x.Status).IsRequired().HasDefaultValue(true);
+            builder.Property(x => x.Status).IsRequired();
         }
     }
 }

@@ -39,13 +39,13 @@
 	-Quantity
 	-Note
 8. Ledger
-	-Period
-	-CloseDate
+	-Period //Kỳ tính theo năm
+	-CloseDate //Ngày đóng kỳ chuyển số dư
 9. LedgerDetail
-	-PeriodId
-	-ProductId
-	-Opening
-	-Ending
+	-PeriodId //Kỳ kế toán
+	-ProductId 
+	-Opening //Số dư Đầu kỳ
+	-Ending	//Số dư cuối kỳ Cuối kỳ
 
 	Ex: 1/2022	Nhot_ABC	0	10
 	
