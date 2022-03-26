@@ -48,28 +48,17 @@ namespace API.Controllers
             if (!result.IsSuccessed) return BadRequest(result);
             return Ok(result);
         }
-        [HttpGet("GetByImportId/{importId}")]
-        public async Task<IActionResult> GetByImportId(int importId)
+        [HttpGet("GetListByImportId/{importId}")]
+        public async Task<IActionResult> GetListByImportId(int importId)
         {
-            var result = await _importDetailServices.GetByImportId(importId);
+            var result = await _importDetailServices.GetListByImportId(importId);
             if (!result.IsSuccessed) return BadRequest(result);
             return Ok(result);
         }
-        [HttpGet("GetByProductId/{productId}")]
+        [HttpGet("GetListByProductId/{productId}")]
         public async Task<IActionResult> GetByProductId(int productId)
         {
-            var result = await _importDetailServices.GetByProductId(productId);
-            if (!result.IsSuccessed) return BadRequest(result);
-            return Ok(result);
-        }
-        [HttpGet("GetPaging")]
-        public async Task<IActionResult> GetPaging([FromQuery] ImportDetailGetPagingRequest request)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            var result = await _importDetailServices.GetPaging(request);
+            var result = await _importDetailServices.GetListByProductId(productId);
             if (!result.IsSuccessed) return BadRequest(result);
             return Ok(result);
         }

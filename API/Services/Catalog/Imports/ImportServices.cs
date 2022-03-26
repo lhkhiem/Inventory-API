@@ -27,7 +27,7 @@ namespace API.Services.Catalog.Imports
                 await _context.SaveChangesAsync();
                 return new ApiSuccessResult<int>("Created.", import.Id);
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 return new ApiErrorResult<int>(ex.Message);
             }
@@ -48,7 +48,7 @@ namespace API.Services.Catalog.Imports
                 await _context.SaveChangesAsync();
                 return new ApiSuccessResult<int>("Deleted.", import.Id);
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 return new ApiErrorResult<int>(ex.Message);
             }
@@ -69,7 +69,7 @@ namespace API.Services.Catalog.Imports
                 };
                 return new ApiSuccessResult<ImportViewModel>("Found item", importViewModel);
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 return new ApiErrorResult<ImportViewModel>(ex.Message);
             }
@@ -105,7 +105,7 @@ namespace API.Services.Catalog.Imports
                 }
                 return new ApiErrorResult<PagedResult<ImportViewModel>>("Not have any items.");
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 return new ApiErrorResult<PagedResult<ImportViewModel>>(ex.Message);
             }
@@ -121,7 +121,7 @@ namespace API.Services.Catalog.Imports
                 await _context.SaveChangesAsync();
                 return new ApiSuccessResult<int>("Updated.", import.Id);
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 return new ApiErrorResult<int>(ex.Message);
             }

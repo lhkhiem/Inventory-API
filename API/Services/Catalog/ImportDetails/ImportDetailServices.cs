@@ -2,6 +2,10 @@
 using API.ViewModels.Common;
 using Data.Entities;
 using Inventory.Data.EF;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace API.Services.Catalog.ImportDetails
@@ -37,29 +41,93 @@ namespace API.Services.Catalog.ImportDetails
             }
         }
 
-        public Task<ApiResult<int>> Delete(int importId, int productId)
+        public async Task<ApiResult<int>> Delete(int importId, int productId)
         {
-            throw new System.NotImplementedException();
+            try
+            {
+                var query = await _context.ImportDetails.FindAsync(importId, productId);
+                if (query == null) return new ApiErrorResult<int>("This item is not found.");
+
+                _context.ImportDetails.Remove(query);
+                await _context.SaveChangesAsync();
+                return new ApiSuccessResult<int>("Deleted.", query.ImportId);
+            }
+            catch (Exception ex)
+            {
+                return new ApiErrorResult<int>(ex.Message);
+            }
         }
 
-        public Task<ApiResult<ImportDetailViewModel>> GetByImportId(int importId)
+        public async Task<ApiResult<List<ImportDetailViewModel>>> GetListByImportId(int importId)
         {
-            throw new System.NotImplementedException();
+            try
+            {
+                var query = _context.ImportDetails.Where(x => x.ImportId==importId).AsQueryable();
+
+                if (!await query.AnyAsync()) return new ApiErrorResult<List<ImportDetailViewModel>>("Không tìm thấy");
+
+                var list = await query.Select(x => new ImportDetailViewModel()
+                {
+                    ImportId = x.ImportId,
+                    ProductId = x.ProductId,
+                    Quantity = x.Quantity,
+                    Note = x.Note,
+                }).ToListAsync();
+
+                return new ApiSuccessResult<List<ImportDetailViewModel>>("Thông tin phiếu", list);
+            }
+            catch (Exception ex)
+            {
+                return new ApiErrorResult<List<ImportDetailViewModel>>(ex.Message);
+            }
         }
 
-        public Task<ApiResult<ImportDetailViewModel>> GetByProductId(int productId)
+        public async Task<ApiResult<PagedResult<ImportDetailViewModel>>> GetListByProductId(int productId)
         {
-            throw new System.NotImplementedException();
+            try
+            {
+                var query = _context.ImportDetails.Where(x => x.ProductId.Equals(productId)).AsQueryable();
+
+                if (!await query.AnyAsync()) return new ApiErrorResult<PagedResult<ImportDetailViewModel>>("Không tìm thấy");
+
+                int totalRecord = await query.CountAsync();
+                var data = await query.Select(x => new ImportDetailViewModel()
+                {
+                    ImportId = x.ImportId,
+                    ProductId = x.ProductId,
+                    Quantity = x.Quantity,
+                    Note = x.Note,
+                }).ToListAsync();
+
+                var pagedResult = new PagedResult<ImportDetailViewModel>()
+                {
+                    TotalRecord = totalRecord,
+                    Items = data
+                };
+
+                return new ApiSuccessResult<PagedResult<ImportDetailViewModel>>("Thông tin phiếu", pagedResult);
+            }
+            catch (Exception ex)
+            {
+                return new ApiErrorResult<PagedResult<ImportDetailViewModel>>(ex.Message);
+            }
         }
 
-        public Task<ApiResult<PagedResult<ImportDetailViewModel>>> GetPaging(ImportDetailGetPagingRequest request)
+        public async Task<ApiResult<int>> Update(ImportDetailUpdateRequest request)
         {
-            throw new System.NotImplementedException();
-        }
-
-        public Task<ApiResult<int>> Update(ImportDetailUpdateRequest request)
-        {
-            throw new System.NotImplementedException();
+            try
+            {
+                var query = await _context.ImportDetails.FindAsync(request.ImportId, request.ProductId);
+                if (query == null) return new ApiErrorResult<int>("This item is not found.");
+                query.Quantity = request.Quantity;
+                query.Note = string.IsNullOrEmpty(request.Note)?String.Empty: request.Note;
+                await _context.SaveChangesAsync();
+                return new ApiSuccessResult<int>("Updated.", query.ImportId);
+            }
+            catch (Exception ex)
+            {
+                return new ApiErrorResult<int>(ex.Message);
+            }
         }
     }
 }
